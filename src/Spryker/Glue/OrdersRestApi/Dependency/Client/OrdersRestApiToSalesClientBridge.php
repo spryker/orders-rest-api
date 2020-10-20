@@ -7,9 +7,6 @@
 
 namespace Spryker\Glue\OrdersRestApi\Dependency\Client;
 
-use Generated\Shared\Transfer\ItemCollectionTransfer;
-use Generated\Shared\Transfer\OrderItemFilterTransfer;
-use Generated\Shared\Transfer\OrderListRequestTransfer;
 use Generated\Shared\Transfer\OrderListTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 
@@ -29,13 +26,13 @@ class OrdersRestApiToSalesClientBridge implements OrdersRestApiToSalesClientInte
     }
 
     /**
-     * @param \Generated\Shared\Transfer\OrderListRequestTransfer $orderListRequestTransfer
+     * @param \Generated\Shared\Transfer\OrderListTransfer $orderListTransfer
      *
      * @return \Generated\Shared\Transfer\OrderListTransfer
      */
-    public function getOffsetPaginatedCustomerOrderList(OrderListRequestTransfer $orderListRequestTransfer): OrderListTransfer
+    public function getPaginatedOrder(OrderListTransfer $orderListTransfer): OrderListTransfer
     {
-        return $this->salesClient->getOffsetPaginatedCustomerOrderList($orderListRequestTransfer);
+        return $this->salesClient->getPaginatedOrder($orderListTransfer);
     }
 
     /**
@@ -46,15 +43,5 @@ class OrdersRestApiToSalesClientBridge implements OrdersRestApiToSalesClientInte
     public function getCustomerOrderByOrderReference(OrderTransfer $orderTransfer): OrderTransfer
     {
         return $this->salesClient->getCustomerOrderByOrderReference($orderTransfer);
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\OrderItemFilterTransfer $orderItemFilterTransfer
-     *
-     * @return \Generated\Shared\Transfer\ItemCollectionTransfer
-     */
-    public function getOrderItems(OrderItemFilterTransfer $orderItemFilterTransfer): ItemCollectionTransfer
-    {
-        return $this->salesClient->getOrderItems($orderItemFilterTransfer);
     }
 }
