@@ -69,6 +69,7 @@ class CustomerOrdersResourceRoutePlugin extends AbstractPlugin implements Resour
             ->setApiCode(OrdersRestApiConfig::RESPONSE_CODE_CUSTOMER_UNAUTHORIZED);
 
         // The check for `method_exists` added for BC reason only.
+        /** @phpstan-ignore function.alreadyNarrowedType */
         if (!method_exists($routeAuthorizationConfigTransfer, 'addStrategy')) {
             return $this->setStrategy($routeAuthorizationConfigTransfer);
         }
