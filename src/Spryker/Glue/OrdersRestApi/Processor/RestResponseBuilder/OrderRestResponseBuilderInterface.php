@@ -15,18 +15,8 @@ use Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface;
 
 interface OrderRestResponseBuilderInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface
-     */
     public function createOrderRestResource(OrderTransfer $orderTransfer): RestResourceInterface;
 
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createOrderRestResponse(OrderTransfer $orderTransfer): RestResponseInterface;
 
     /**
@@ -38,9 +28,6 @@ interface OrderRestResponseBuilderInterface
      */
     public function createOrderListRestResponse(ArrayObject $orderTransfers, int $totalItems, int $limit): RestResponseInterface;
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createOrderNotFoundErrorResponse(): RestResponseInterface;
 
     /**
@@ -50,15 +37,7 @@ interface OrderRestResponseBuilderInterface
      */
     public function createMappedOrderItemRestResourcesFromOrderItemTransfers(ArrayObject $itemTransfers): array;
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createCustomerUnauthorizedErrorResponse(): RestResponseInterface;
 
-    /**
-     * @param \Generated\Shared\Transfer\RestErrorMessageTransfer $restErrorMessageTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createErrorResponse(RestErrorMessageTransfer $restErrorMessageTransfer): RestResponseInterface;
 }

@@ -22,9 +22,6 @@ class OrderByOrderReferenceResourceRelationshipExpander implements OrderByOrderR
      */
     protected $orderReader;
 
-    /**
-     * @param \Spryker\Glue\OrdersRestApi\Processor\Order\OrderReaderInterface $orderReader
-     */
     public function __construct(OrderReaderInterface $orderReader)
     {
         $this->orderReader = $orderReader;

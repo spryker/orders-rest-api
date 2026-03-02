@@ -37,10 +37,6 @@ class OrderRestResponseBuilder implements OrderRestResponseBuilderInterface
      */
     protected $orderResourceMapper;
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface $restResourceBuilder
-     * @param \Spryker\Glue\OrdersRestApi\Processor\Mapper\OrderMapperInterface $orderResourceMapper
-     */
     public function __construct(
         RestResourceBuilderInterface $restResourceBuilder,
         OrderMapperInterface $orderResourceMapper
@@ -49,11 +45,6 @@ class OrderRestResponseBuilder implements OrderRestResponseBuilderInterface
         $this->orderResourceMapper = $orderResourceMapper;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface
-     */
     public function createOrderRestResource(OrderTransfer $orderTransfer): RestResourceInterface
     {
         $restOrderDetailsAttributesTransfer = $this->orderResourceMapper
@@ -70,11 +61,6 @@ class OrderRestResponseBuilder implements OrderRestResponseBuilderInterface
         return $restResource;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createOrderRestResponse(OrderTransfer $orderTransfer): RestResponseInterface
     {
         $orderRestResource = $this->createOrderRestResource($orderTransfer);
@@ -109,9 +95,6 @@ class OrderRestResponseBuilder implements OrderRestResponseBuilderInterface
         return $restResponse;
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createOrderNotFoundErrorResponse(): RestResponseInterface
     {
         $restErrorPayload = $this->getOrderNotFoundError();
@@ -138,9 +121,6 @@ class OrderRestResponseBuilder implements OrderRestResponseBuilderInterface
         return $restResources;
     }
 
-    /**
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createCustomerUnauthorizedErrorResponse(): RestResponseInterface
     {
         $restErrorPayload = $this->getCustomerUnauthorizedRestError();
@@ -151,21 +131,11 @@ class OrderRestResponseBuilder implements OrderRestResponseBuilderInterface
         );
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\RestErrorMessageTransfer $restErrorMessageTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function createErrorResponse(RestErrorMessageTransfer $restErrorMessageTransfer): RestResponseInterface
     {
         return $this->restResourceBuilder->createRestResponse()->addError($restErrorMessageTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ItemTransfer $itemTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface
-     */
     protected function createOrderItemRestResource(ItemTransfer $itemTransfer): RestResourceInterface
     {
         $restOrderItemsAttributesTransfer = $this->orderResourceMapper
@@ -185,12 +155,6 @@ class OrderRestResponseBuilder implements OrderRestResponseBuilderInterface
         return $orderItemResource;
     }
 
-    /**
-     * @param string $idOrder
-     * @param string $idOrderItem
-     *
-     * @return string
-     */
     protected function createSelfLinkForOrderItem(string $idOrder, string $idOrderItem): string
     {
         return sprintf(

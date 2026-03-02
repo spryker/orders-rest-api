@@ -47,11 +47,6 @@ class OrderMapper implements OrderMapperInterface
         $this->restOrderDetailsAttributesMapperPlugins = $restOrderDetailsAttributesMapperPlugins;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestOrdersAttributesTransfer
-     */
     public function mapOrderTransferToRestOrdersAttributesTransfer(OrderTransfer $orderTransfer): RestOrdersAttributesTransfer
     {
         $orderTransfer->requireTotals();
@@ -63,11 +58,6 @@ class OrderMapper implements OrderMapperInterface
         return $restOrdersAttributesTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestOrderDetailsAttributesTransfer
-     */
     public function mapOrderTransferToRestOrderDetailsAttributesTransfer(OrderTransfer $orderTransfer): RestOrderDetailsAttributesTransfer
     {
         $orderTransfer->requireTotals();
@@ -98,12 +88,6 @@ class OrderMapper implements OrderMapperInterface
         return $this->executeRestOrderDetailsAttributesMapperPlugins($orderTransfer, $restOrderDetailsAttributesTransfer);
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\ItemTransfer $itemTransfer
-     * @param \Generated\Shared\Transfer\RestOrderItemsAttributesTransfer $restOrderItemsAttributesTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestOrderItemsAttributesTransfer
-     */
     public function mapItemTransferToRestOrderItemsAttributesTransfer(
         ItemTransfer $itemTransfer,
         RestOrderItemsAttributesTransfer $restOrderItemsAttributesTransfer
@@ -120,12 +104,6 @@ class OrderMapper implements OrderMapperInterface
         return $restOrderItemsAttributesTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     * @param \Generated\Shared\Transfer\RestOrderDetailsAttributesTransfer $restOrderDetailsAttributesTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestOrderDetailsAttributesTransfer
-     */
     public function mapOrderShippingAddressTransferToRestOrderDetailsAttributesTransfer(
         OrderTransfer $orderTransfer,
         RestOrderDetailsAttributesTransfer $restOrderDetailsAttributesTransfer
@@ -144,11 +122,6 @@ class OrderMapper implements OrderMapperInterface
         return $restOrderDetailsAttributesTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     *
-     * @return \Generated\Shared\Transfer\CountryTransfer|null
-     */
     protected function findItemLevelShippingAddressCountry(OrderTransfer $orderTransfer): ?CountryTransfer
     {
         if ($orderTransfer->getItems()->count() === 0) {
@@ -169,12 +142,6 @@ class OrderMapper implements OrderMapperInterface
             ->getCountry();
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     * @param \Generated\Shared\Transfer\RestOrderDetailsAttributesTransfer $restOrderDetailsAttributesTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestOrderDetailsAttributesTransfer
-     */
     protected function executeRestOrderDetailsAttributesMapperPlugins(
         OrderTransfer $orderTransfer,
         RestOrderDetailsAttributesTransfer $restOrderDetailsAttributesTransfer

@@ -31,11 +31,6 @@ class OrdersRestApiDependencyProvider extends AbstractBundleDependencyProvider
      */
     public const PLUGINS_REST_ORDER_DETAILS_ATTRIBUTES_MAPPER = 'PLUGINS_REST_ORDER_DETAILS_ATTRIBUTES_MAPPER';
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     public function provideDependencies(Container $container): Container
     {
         $container = parent::provideDependencies($container);
@@ -46,11 +41,6 @@ class OrdersRestApiDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addSalesClient(Container $container): Container
     {
         $container->set(static::CLIENT_SALES, function (Container $container) {
@@ -60,11 +50,6 @@ class OrdersRestApiDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addRestOrderItemsAttributesMapperPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_REST_ORDER_ITEMS_ATTRIBUTES_MAPPER, function () {
@@ -82,11 +67,6 @@ class OrdersRestApiDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Glue\Kernel\Container $container
-     *
-     * @return \Spryker\Glue\Kernel\Container
-     */
     protected function addRestOrderDetailsAttributesMapperPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_REST_ORDER_DETAILS_ATTRIBUTES_MAPPER, function () {

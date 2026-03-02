@@ -29,10 +29,6 @@ class OrderItemExpander implements OrderItemExpanderInterface
      */
     protected $orderRestResponseBuilder;
 
-    /**
-     * @param \Spryker\Glue\OrdersRestApi\Dependency\Client\OrdersRestApiToSalesClientInterface $salesClient
-     * @param \Spryker\Glue\OrdersRestApi\Processor\RestResponseBuilder\OrderRestResponseBuilderInterface $orderRestResponseBuilder
-     */
     public function __construct(
         OrdersRestApiToSalesClientInterface $salesClient,
         OrderRestResponseBuilderInterface $orderRestResponseBuilder

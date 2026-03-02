@@ -15,24 +15,9 @@ use Generated\Shared\Transfer\OrderTransfer;
 
 interface OrdersRestApiToSalesClientInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\OrderListRequestTransfer $orderListRequestTransfer
-     *
-     * @return \Generated\Shared\Transfer\OrderListTransfer
-     */
     public function getOffsetPaginatedCustomerOrderList(OrderListRequestTransfer $orderListRequestTransfer): OrderListTransfer;
 
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     *
-     * @return \Generated\Shared\Transfer\OrderTransfer
-     */
     public function getCustomerOrderByOrderReference(OrderTransfer $orderTransfer): OrderTransfer;
 
-    /**
-     * @param \Generated\Shared\Transfer\OrderItemFilterTransfer $orderItemFilterTransfer
-     *
-     * @return \Generated\Shared\Transfer\ItemCollectionTransfer
-     */
     public function getOrderItems(OrderItemFilterTransfer $orderItemFilterTransfer): ItemCollectionTransfer;
 }

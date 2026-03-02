@@ -29,9 +29,6 @@ use Spryker\Glue\OrdersRestApi\Processor\Validator\OrdersRestApiValidatorInterfa
  */
 class OrdersRestApiFactory extends AbstractFactory
 {
-    /**
-     * @return \Spryker\Glue\OrdersRestApi\Processor\Order\OrderReaderInterface
-     */
     public function createOrderReader(): OrderReaderInterface
     {
         return new OrderReader(
@@ -41,9 +38,6 @@ class OrdersRestApiFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Glue\OrdersRestApi\Processor\Mapper\OrderMapperInterface
-     */
     public function createOrderMapper(): OrderMapperInterface
     {
         return new OrderMapper(
@@ -53,17 +47,11 @@ class OrdersRestApiFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Glue\OrdersRestApi\Processor\Mapper\OrderShipmentMapperInterface
-     */
     public function createOrderShipmentMapper(): OrderShipmentMapperInterface
     {
         return new OrderShipmentMapper();
     }
 
-    /**
-     * @return \Spryker\Glue\OrdersRestApi\Processor\RestResponseBuilder\OrderRestResponseBuilderInterface
-     */
     public function createOrderRestResponseBuilder(): OrderRestResponseBuilderInterface
     {
         return new OrderRestResponseBuilder(
@@ -72,9 +60,6 @@ class OrdersRestApiFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Glue\OrdersRestApi\Processor\Expander\OrderItemExpanderInterface
-     */
     public function createOrderItemExpander(): OrderItemExpanderInterface
     {
         return new OrderItemExpander(
@@ -83,17 +68,11 @@ class OrdersRestApiFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Glue\OrdersRestApi\Processor\Expander\OrderByOrderReferenceResourceRelationshipExpanderInterface
-     */
     public function createOrderByOrderReferenceResourceRelationshipExpander(): OrderByOrderReferenceResourceRelationshipExpanderInterface
     {
         return new OrderByOrderReferenceResourceRelationshipExpander($this->createOrderReader());
     }
 
-    /**
-     * @return \Spryker\Glue\OrdersRestApi\Dependency\Client\OrdersRestApiToSalesClientInterface
-     */
     public function getSalesClient(): OrdersRestApiToSalesClientInterface
     {
         return $this->getProvidedDependency(OrdersRestApiDependencyProvider::CLIENT_SALES);
@@ -115,9 +94,6 @@ class OrdersRestApiFactory extends AbstractFactory
         return $this->getProvidedDependency(OrdersRestApiDependencyProvider::PLUGINS_REST_ORDER_DETAILS_ATTRIBUTES_MAPPER);
     }
 
-    /**
-     * @return \Spryker\Glue\OrdersRestApi\Processor\Validator\OrdersRestApiValidatorInterface
-     */
     public function createOrdersRestApiValidator(): OrdersRestApiValidatorInterface
     {
         return new OrdersRestApiValidator();
