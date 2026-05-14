@@ -1,0 +1,190 @@
+resource:
+    name: Orders
+    shortName: orders
+
+    provider: Spryker\Glue\OrdersRestApi\Api\Storefront\Provider\OrdersStorefrontProvider
+    security: "is_granted('ROLE_CUSTOMER')"
+
+    operations:
+        - type: Get
+          normalizationContext:
+              skip_null_values: false
+          openapiContext:
+              responses:
+                  200:
+                      description: 'Order returned.'
+                  400:
+                      description: 'Order reference is not specified.'
+                  401:
+                      description: 'Missing access token.'
+                  404:
+                      description: 'Order not found.'
+        - type: GetCollection
+          openapiContext:
+              responses:
+                  200:
+                      description: 'Order collection returned.'
+                  401:
+                      description: 'Missing access token.'
+
+    includes:
+        - relationshipName: merchants
+          targetResource: Merchants
+          resolverClass: Spryker\Glue\MerchantsRestApi\Relationship\OrderMerchantsRelationshipResolver
+        - relationshipName: order-shipments
+          targetResource: OrderShipments
+          resolverClass: Spryker\Glue\ShipmentsRestApi\Api\Storefront\Relationship\OrderShipmentsRelationshipResolver
+        - relationshipName: order-items
+          targetResource: OrderItems
+          resolverClass: Spryker\Glue\OrdersRestApi\Api\Storefront\Relationship\OrderItemsRelationshipResolver
+
+    properties:
+        orderReference:
+            type: string
+            description: 'Order reference (identifier).'
+            identifier: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 'DE--1'
+
+        createdAt:
+            type: string
+            description: 'Order creation timestamp (Y-m-d H:i:s.u).'
+            readable: true
+            writable: false
+            openapiContext:
+                example: '2024-01-01 12:00:00.000000'
+
+        currencyIsoCode:
+            type: string
+            description: 'ISO 4217 currency code the order was placed in.'
+            readable: true
+            writable: false
+            openapiContext:
+                example: 'EUR'
+
+        priceMode:
+            type: string
+            description: 'Price mode the order was placed in (GROSS_MODE or NET_MODE).'
+            readable: true
+            writable: false
+            openapiContext:
+                example: 'GROSS_MODE'
+
+        totals:
+            type: map
+            description: 'Order totals (subtotal, grand total, tax total, etc.) in cents.'
+            readable: true
+            writable: false
+            openapiContext:
+                example:
+                    {
+                        expenseTotal: 490,
+                        discountTotal: 0,
+                        taxTotal: 1922,
+                        subtotal: 9902,
+                        grandTotal: 10392,
+                        canceledTotal: 0,
+                        remunerationTotal: 0,
+                    }
+
+        items:
+            type: array
+            description: 'Order line items.'
+            readable: true
+            writable: false
+            openapiContext:
+                example: []
+
+        expenses:
+            type: array
+            description: 'Expenses (e.g. shipping costs) booked on the order.'
+            readable: true
+            writable: false
+            openapiContext:
+                example: []
+
+        billingAddress:
+            type: map
+            description: 'Billing address snapshot at the time the order was placed.'
+            readable: true
+            writable: false
+            openapiContext:
+                example:
+                    {
+                        salutation: 'Mr',
+                        firstName: 'John',
+                        lastName: 'Doe',
+                        address1: 'Julie-Wolfthorn-Strasse',
+                        address2: '1',
+                        address3: null,
+                        zipCode: '10115',
+                        city: 'Berlin',
+                        country: 'Germany',
+                        iso2Code: 'DE',
+                        phone: '+49 30 2084983050',
+                    }
+
+        shippingAddress:
+            type: map
+            description: 'Shipping address snapshot at the time the order was placed (nullable for multi-shipment orders).'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example:
+                    {
+                        salutation: 'Mr',
+                        firstName: 'John',
+                        lastName: 'Doe',
+                        address1: 'Julie-Wolfthorn-Strasse',
+                        address2: '1',
+                        address3: null,
+                        zipCode: '10115',
+                        city: 'Berlin',
+                        country: 'Germany',
+                        iso2Code: 'DE',
+                        phone: '+49 30 2084983050',
+                    }
+
+        payments:
+            type: array
+            description: 'Payments associated with the order.'
+            readable: true
+            writable: false
+            openapiContext:
+                example: []
+
+        shipments:
+            type: array
+            description: 'Shipments associated with the order.'
+            readable: true
+            writable: false
+            openapiContext:
+                example: []
+
+        calculatedDiscounts:
+            type: array
+            description: 'Calculated discounts applied to the order.'
+            readable: true
+            writable: false
+            openapiContext:
+                example: []
+
+        context:
+            type: map
+            description: 'Internal order context data (not serialized).'
+            readable: false
+            writable: false
+            required: false
+            openapiContext:
+                example: {}
+
+        pagination:
+            type: map
+            description: 'Pagination metadata for the collection.'
+            readable: true
+            writable: false
+            openapiContext:
+                example: { currentPage: 1, maxPage: 10, currentItemsPerPage: 10, numFound: 100 }

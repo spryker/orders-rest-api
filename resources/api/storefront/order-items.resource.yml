@@ -1,0 +1,329 @@
+resource:
+    name: OrderItems
+    shortName: order-items
+
+    provider: Spryker\Glue\OrdersRestApi\Api\Storefront\Provider\OrderItemsStorefrontProvider
+    security: "is_granted('ROLE_CUSTOMER')"
+
+    operations:
+        - type: Get
+          uriTemplate: /orders/{orderReference}/order-items/{uuid}
+          normalizationContext:
+              skip_null_values: false
+          uriVariables:
+              orderReference:
+                  fromClass: OrdersStorefrontResource
+          openapiContext:
+              responses:
+                  200:
+                      description: 'Order item returned.'
+                  401:
+                      description: 'Missing access token.'
+                  404:
+                      description: 'Order or order item not found.'
+
+    properties:
+        uuid:
+            type: string
+            description: 'Order item UUID (identifier).'
+            identifier: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 'abcd1234-5678-efgh-9012-ijkl34567890'
+
+        name:
+            type: string
+            description: 'Display name of the ordered concrete product.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 'Samsung Galaxy S24'
+
+        sku:
+            type: string
+            description: 'SKU of the ordered concrete product.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 'SGS24-001'
+
+        quantity:
+            type: integer
+            description: 'Quantity ordered.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 1
+
+        sumPrice:
+            type: integer
+            description: 'Sum price for this line in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 79900
+
+        unitGrossPrice:
+            type: integer
+            description: 'Unit gross price in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 79900
+
+        sumGrossPrice:
+            type: integer
+            description: 'Sum gross price in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 79900
+
+        taxRate:
+            type: number
+            description: 'Effective tax rate as percentage.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 19.00
+
+        unitNetPrice:
+            type: integer
+            description: 'Unit net price in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 67143
+
+        sumNetPrice:
+            type: integer
+            description: 'Sum net price in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 67143
+
+        unitPrice:
+            type: integer
+            description: 'Unit store-mode price in cents (gross or net depending on price mode).'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 79900
+
+        unitTaxAmountFullAggregation:
+            type: integer
+            description: 'Full tax amount aggregation per unit including product options and expenses in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 12757
+
+        sumTaxAmountFullAggregation:
+            type: integer
+            description: 'Full tax amount aggregation for the line including product options and expenses in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 12757
+
+        refundableAmount:
+            type: integer
+            description: 'Refundable amount remaining in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 79900
+
+        canceledAmount:
+            type: integer
+            description: 'Already canceled amount in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 0
+
+        sumSubtotalAggregation:
+            type: integer
+            description: 'Sum subtotal aggregation for the line including product options in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 79900
+
+        unitSubtotalAggregation:
+            type: integer
+            description: 'Unit subtotal aggregation including product options in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 79900
+
+        unitProductOptionPriceAggregation:
+            type: integer
+            description: 'Product option price aggregation per unit in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 0
+
+        sumProductOptionPriceAggregation:
+            type: integer
+            description: 'Product option price aggregation for the line in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 0
+
+        unitExpensePriceAggregation:
+            type: integer
+            description: 'Expense price aggregation per unit in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 0
+
+        sumExpensePriceAggregation:
+            type: integer
+            description: 'Expense price aggregation for the line in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 0
+
+        unitDiscountAmountAggregation:
+            type: integer
+            description: 'Discount amount aggregation per unit excluding product options in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 0
+
+        sumDiscountAmountAggregation:
+            type: integer
+            description: 'Discount amount aggregation for the line excluding product options in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 0
+
+        unitDiscountAmountFullAggregation:
+            type: integer
+            description: 'Full discount amount aggregation per unit including product options in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 0
+
+        sumDiscountAmountFullAggregation:
+            type: integer
+            description: 'Full discount amount aggregation for the line including product options in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 0
+
+        unitPriceToPayAggregation:
+            type: integer
+            description: 'Final price to pay per unit after all discounts in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 79900
+
+        sumPriceToPayAggregation:
+            type: integer
+            description: 'Final price to pay for the line after all discounts in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 79900
+
+        taxRateAverageAggregation:
+            type: number
+            description: 'Weighted average tax rate across all components of this line item as a percentage.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 19.00
+
+        taxAmountAfterCancellation:
+            type: integer
+            description: 'Tax amount remaining after cancellations in cents.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 0
+
+        orderReference:
+            type: string
+            description: 'Parent order reference.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 'DE--1'
+
+        isReturnable:
+            type: boolean
+            description: 'Whether the item is currently returnable.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: true
+
+        idShipment:
+            type: integer
+            description: 'Foreign key to the shipment carrying this item.'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 1
+
+        metadata:
+            type: array
+            description: 'Concrete product metadata (superAttributes, image).'
+            nullable: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: { superAttributes: [], image: null }
+
+        calculatedDiscounts:
+            type: array
+            description: 'Discounts applied to this line item.'
+            readable: true
+            writable: false
+            openapiContext:
+                example: []

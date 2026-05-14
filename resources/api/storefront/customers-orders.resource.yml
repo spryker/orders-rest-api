@@ -1,0 +1,80 @@
+resource:
+    name: CustomersOrders
+    shortName: orders
+
+    provider: Spryker\Glue\OrdersRestApi\Api\Storefront\Provider\CustomersOrdersStorefrontProvider
+
+    operations:
+        - type: GetCollection
+          security: "is_granted('ROLE_CUSTOMER') and is_granted('CUSTOMER_OWNER', request.attributes.get('customerReference'))"
+          uriTemplate: /customers/{customerReference}/orders
+          uriVariables:
+              customerReference:
+                  fromClass: CustomersStorefrontResource
+          openapiContext:
+              responses:
+                  200:
+                      description: 'Order collection returned for the given customer.'
+                  401:
+                      description: 'Missing access token.'
+                  403:
+                      description: 'Customer reference does not belong to the authenticated customer.'
+
+    properties:
+        orderReference:
+            type: string
+            description: 'Order reference (identifier).'
+            identifier: true
+            readable: true
+            writable: false
+            openapiContext:
+                example: 'DE--1'
+
+        createdAt:
+            type: string
+            description: 'Order creation timestamp (Y-m-d H:i:s.u).'
+            readable: true
+            writable: false
+            openapiContext:
+                example: '2024-01-01 12:00:00.000000'
+
+        currencyIsoCode:
+            type: string
+            description: 'ISO 4217 currency code the order was placed in.'
+            readable: true
+            writable: false
+            openapiContext:
+                example: 'EUR'
+
+        priceMode:
+            type: string
+            description: 'Price mode the order was placed in (GROSS_MODE or NET_MODE).'
+            readable: true
+            writable: false
+            openapiContext:
+                example: 'GROSS_MODE'
+
+        totals:
+            type: map
+            description: 'Order totals (subtotal, grand total, tax total, etc.) in cents.'
+            readable: true
+            writable: false
+            openapiContext:
+                example:
+                    {
+                        expenseTotal: 490,
+                        discountTotal: 0,
+                        taxTotal: 1922,
+                        subtotal: 9902,
+                        grandTotal: 10392,
+                        canceledTotal: 0,
+                        remunerationTotal: 0,
+                    }
+
+        pagination:
+            type: map
+            description: 'Pagination metadata for the collection.'
+            readable: true
+            writable: false
+            openapiContext:
+                example: { currentPage: 1, maxPage: 10, currentItemsPerPage: 10, numFound: 100 }
