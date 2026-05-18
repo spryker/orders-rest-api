@@ -27,6 +27,12 @@ resource:
                   401:
                       description: 'Missing access token.'
 
+    includableIn:
+        - resource: Checkout
+          relationshipName: orders
+          uriVariableMappings:
+              orderReferences: orderReference
+
     includes:
         - relationshipName: merchants
           targetResource: Merchants
