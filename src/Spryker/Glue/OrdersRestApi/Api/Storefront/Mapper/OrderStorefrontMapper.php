@@ -244,8 +244,8 @@ class OrderStorefrontMapper implements OrderStorefrontMapperInterface
     {
         $result = [];
 
-        foreach ($transferCollection as $transfer) {
-            $result[] = $transfer->toArray(true, true);
+        foreach ($transferCollection as $key => $transfer) {
+            $result[$key] = $transfer->toArray(true, true);
         }
 
         return $result;

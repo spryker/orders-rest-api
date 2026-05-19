@@ -140,6 +140,7 @@ class OrdersStorefrontProvider extends AbstractStorefrontProvider
             'createdAt' => $orderTransfer->getCreatedAt(),
             'currencyIsoCode' => $orderTransfer->getCurrencyIsoCode(),
             'priceMode' => $orderTransfer->getPriceMode(),
+            'merchantReferences' => $orderTransfer->getMerchantReferences(),
             'expenses' => $this->orderStorefrontMapper->mapOrderExpenses($orderTransfer),
             'shippingAddress' => $this->hasSplitShipment($orderTransfer)
                 ? null : $this->orderStorefrontMapper->mapShippingAddress($orderTransfer),

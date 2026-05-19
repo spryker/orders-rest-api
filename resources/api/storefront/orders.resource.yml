@@ -78,6 +78,15 @@ resource:
             openapiContext:
                 example: 'GROSS_MODE'
 
+        merchantReferences:
+            type: array
+            description: 'Collection of merchant references for the order (marketplace).'
+            readable: true
+            writable: false
+            required: false
+            openapiContext:
+            example: ['MER000001']
+
         totals:
             type: map
             description: 'Order totals (subtotal, grand total, tax total, etc.) in cents.'
