@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Spryker\Glue\OrdersRestApi\Api\Storefront\Provider;
 
+use Generated\Api\Storefront\CustomersOrders\CustomersOrdersPaginationStorefrontObject;
 use Generated\Api\Storefront\CustomersOrdersStorefrontResource;
 use Generated\Shared\Transfer\OrderListRequestTransfer;
 use Spryker\ApiPlatform\State\Provider\AbstractStorefrontProvider;
@@ -74,7 +75,7 @@ class CustomersOrdersStorefrontProvider extends AbstractStorefrontProvider
 
         if ($pagination !== null && count($resources) > 0) {
             $nbResults = $pagination->getNbResults() ?? 0;
-            $resources[0]->pagination = $this->calculatePagination($filterTransfer->getOffsetOrFail(), $filterTransfer->getLimitOrFail(), $nbResults);
+            $resources[0]->pagination = CustomersOrdersPaginationStorefrontObject::fromArray($this->calculatePagination($filterTransfer->getOffsetOrFail(), $filterTransfer->getLimitOrFail(), $nbResults));
         }
 
         return $resources;

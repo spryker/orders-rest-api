@@ -10,7 +10,9 @@ declare(strict_types=1);
 namespace Spryker\Glue\OrdersRestApi\Api\Storefront\Mapper;
 
 use ArrayObject;
+use Generated\Api\Storefront\CustomersOrders\CustomersOrdersTotalsStorefrontObject;
 use Generated\Api\Storefront\CustomersOrdersStorefrontResource;
+use Generated\Api\Storefront\OrderItems\OrderItemsMetadataStorefrontObject;
 use Generated\Api\Storefront\OrderItemsStorefrontResource;
 use Generated\Shared\Transfer\CountryTransfer;
 use Generated\Shared\Transfer\ItemTransfer;
@@ -77,7 +79,7 @@ class OrderStorefrontMapper implements OrderStorefrontMapperInterface
         $orderItemsStorefrontResource->orderReference = $itemTransfer->getOrderReference();
         $orderItemsStorefrontResource->isReturnable = $itemTransfer->getIsReturnable();
         $orderItemsStorefrontResource->idShipment = $itemTransfer->getShipment()?->getIdSalesShipment();
-        $orderItemsStorefrontResource->metadata = is_array($itemData['metadata'] ?? null) ? $itemData['metadata'] : null;
+        $orderItemsStorefrontResource->metadata = is_array($itemData['metadata'] ?? null) ? OrderItemsMetadataStorefrontObject::fromArray($itemData['metadata']) : null;
         $orderItemsStorefrontResource->calculatedDiscounts = is_array($itemData['calculatedDiscounts'] ?? null)
             ? array_values($itemData['calculatedDiscounts'])
             : [];
@@ -93,7 +95,7 @@ class OrderStorefrontMapper implements OrderStorefrontMapperInterface
         $customersOrdersStorefrontResource->createdAt = $orderTransfer->getCreatedAt();
         $customersOrdersStorefrontResource->currencyIsoCode = $orderTransfer->getCurrencyIsoCode();
         $customersOrdersStorefrontResource->priceMode = $orderTransfer->getPriceMode();
-        $customersOrdersStorefrontResource->totals = $this->mapTotals($orderTransfer);
+        $customersOrdersStorefrontResource->totals = CustomersOrdersTotalsStorefrontObject::fromArray($this->mapTotals($orderTransfer));
 
         return $customersOrdersStorefrontResource;
     }
@@ -196,6 +198,26 @@ class OrderStorefrontMapper implements OrderStorefrontMapperInterface
             $data['iso2Code'] = $country->getIso2Code();
         }
 
+        return $this->nullifyEmptyAddressFields($data);
+    }
+
+    /**
+     * The order address transfer carries empty strings for unset optional fields (e.g. `email`,
+     * `poBox`), but the legacy contract emits them as `null`. Reduce empty strings to null so the
+     * serialized address matches the established response shape.
+     *
+     * @param array<string, mixed> $data
+     *
+     * @return array<string, mixed>
+     */
+    protected function nullifyEmptyAddressFields(array $data): array
+    {
+        foreach ($data as $key => $value) {
+            if ($value === '') {
+                $data[$key] = null;
+            }
+        }
+
         return $data;
     }
 
@@ -211,14 +233,18 @@ class OrderStorefrontMapper implements OrderStorefrontMapperInterface
         }
 
         $data = $shippingAddress->toArray(true, true);
-        $countryTransfer = $this->findItemLevelShippingAddressCountry($orderTransfer);
+        // toArray() emits the nested CountryTransfer as an array under `country`; the resource
+        // contract exposes `country` as the country name string. Reduce it from the item-level
+        // shipment country when available, otherwise from the address's own country (mirrors
+        // mapBillingAddress) so `country` is never left as an array.
+        $countryTransfer = $this->findItemLevelShippingAddressCountry($orderTransfer) ?? $shippingAddress->getCountry();
 
         if ($countryTransfer !== null) {
             $data['country'] = $countryTransfer->getName();
             $data['iso2Code'] = $countryTransfer->getIso2Code();
         }
 
-        return $data;
+        return $this->nullifyEmptyAddressFields($data);
     }
 
     /**

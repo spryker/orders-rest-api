@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Spryker\Glue\OrdersRestApi\Api\Storefront\Provider;
 
+use Generated\Api\Storefront\Orders\OrdersPaginationStorefrontObject;
+use Generated\Api\Storefront\Orders\OrdersTotalsStorefrontObject;
 use Generated\Api\Storefront\OrdersStorefrontResource;
 use Generated\Shared\Transfer\OrderListRequestTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
@@ -18,6 +20,7 @@ use Spryker\Client\Sales\SalesClientInterface;
 use Spryker\Glue\OrdersRestApi\Api\Storefront\Exception\OrdersExceptionFactoryInterface;
 use Spryker\Glue\OrdersRestApi\Api\Storefront\Mapper\OrderStorefrontMapperInterface;
 use Spryker\Service\Serializer\SerializerServiceInterface;
+use Stringable;
 
 class OrdersStorefrontProvider extends AbstractStorefrontProvider
 {
@@ -93,7 +96,7 @@ class OrdersStorefrontProvider extends AbstractStorefrontProvider
 
         if ($pagination !== null && count($resources) > 0) {
             $nbResults = $pagination->getNbResults() ?? 0;
-            $resources[0]->pagination = $this->calculatePagination($filterTransfer->getOffsetOrFail(), $filterTransfer->getLimitOrFail(), $nbResults);
+            $resources[0]->pagination = OrdersPaginationStorefrontObject::fromArray($this->calculatePagination($filterTransfer->getOffsetOrFail(), $filterTransfer->getLimitOrFail(), $nbResults));
         }
 
         return $resources;
@@ -118,7 +121,7 @@ class OrdersStorefrontProvider extends AbstractStorefrontProvider
         $resource->createdAt = $orderTransfer->getCreatedAt();
         $resource->currencyIsoCode = $orderTransfer->getCurrencyIsoCode();
         $resource->priceMode = $orderTransfer->getPriceMode();
-        $resource->totals = $this->orderStorefrontMapper->mapTotals($orderTransfer);
+        $resource->totals = OrdersTotalsStorefrontObject::fromArray($this->orderStorefrontMapper->mapTotals($orderTransfer));
         $resource->context = $orderTransfer->toArray(true, true);
 
         return $resource;
@@ -131,6 +134,15 @@ class OrdersStorefrontProvider extends AbstractStorefrontProvider
             new RestOrderDetailsAttributesTransfer(),
         );
         $orderDetailsAttributesData = $orderDetailsAttributesTransfer->toArray(true, true);
+
+        // Render the sales-unit amount as the full-scale decimal string ("5.0000000000") the legacy
+        // contract emitted. Must run on the Decimal BEFORE denormalize — the serializer flattens the
+        // Decimal inside the untyped `items` array to a bare number and loses the scale otherwise.
+        foreach ($orderDetailsAttributesData['items'] ?? [] as $index => $itemData) {
+            if (isset($itemData['amount']) && $itemData['amount'] instanceof Stringable) {
+                $orderDetailsAttributesData['items'][$index]['amount'] = (string)$itemData['amount'];
+            }
+        }
 
         $resource = $this->serializer->denormalize([
             ...$orderDetailsAttributesData,

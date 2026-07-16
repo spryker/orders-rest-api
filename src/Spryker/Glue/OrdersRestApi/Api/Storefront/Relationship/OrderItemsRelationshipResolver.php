@@ -42,6 +42,7 @@ class OrderItemsRelationshipResolver extends AbstractRelationshipResolver implem
 
     /**
      * @param array<\Generated\Api\Storefront\OrdersStorefrontResource> $parentResources
+     * @param array<string, mixed> $context
      *
      * @return array<string, array<\Generated\Api\Storefront\OrderItemsStorefrontResource>>
      */

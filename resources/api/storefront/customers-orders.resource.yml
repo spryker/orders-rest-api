@@ -55,26 +55,72 @@ resource:
                 example: 'GROSS_MODE'
 
         totals:
-            type: map
+            type: object
+            objectName: Totals
             description: 'Order totals (subtotal, grand total, tax total, etc.) in cents.'
             readable: true
             writable: false
-            openapiContext:
-                example:
-                    {
-                        expenseTotal: 490,
-                        discountTotal: 0,
-                        taxTotal: 1922,
-                        subtotal: 9902,
-                        grandTotal: 10392,
-                        canceledTotal: 0,
-                        remunerationTotal: 0,
-                    }
+            properties:
+                expenseTotal:
+                    type: integer
+                    description: 'Total expenses (e.g. shipping) booked on the order.'
+                    openapiContext:
+                        example: 490
+                discountTotal:
+                    type: integer
+                    description: 'Total discounts applied to the order.'
+                    openapiContext:
+                        example: 0
+                taxTotal:
+                    type: integer
+                    description: 'Total tax for the order.'
+                    openapiContext:
+                        example: 1922
+                subtotal:
+                    type: integer
+                    description: 'Total of all items before discounts, taxes, and expenses.'
+                    openapiContext:
+                        example: 9902
+                grandTotal:
+                    type: integer
+                    description: 'Final order total including all costs and discounts.'
+                    openapiContext:
+                        example: 10392
+                canceledTotal:
+                    type: integer
+                    description: 'Total amount canceled on the order.'
+                    openapiContext:
+                        example: 0
+                remunerationTotal:
+                    type: integer
+                    description: 'Total remuneration (e.g. credit) applied to the order.'
+                    openapiContext:
+                        example: 0
 
         pagination:
-            type: map
+            type: object
+            objectName: Pagination
             description: 'Pagination metadata for the collection.'
             readable: true
             writable: false
-            openapiContext:
-                example: { currentPage: 1, maxPage: 10, currentItemsPerPage: 10, numFound: 100 }
+            properties:
+                currentPage:
+                    type: integer
+                    description: 'Current page number.'
+                    openapiContext:
+                        example: 1
+                maxPage:
+                    type: integer
+                    description: 'Total number of pages.'
+                    openapiContext:
+                        example: 10
+                currentItemsPerPage:
+                    type: integer
+                    description: 'Number of items per page.'
+                    openapiContext:
+                        example: 10
+                numFound:
+                    type: integer
+                    description: 'Total number of items found.'
+                    openapiContext:
+                        example: 100

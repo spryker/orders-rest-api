@@ -82,21 +82,47 @@ resource:
             example: ['MER000001']
 
         totals:
-            type: map
+            type: object
+            objectName: Totals
             description: 'Order totals (subtotal, grand total, tax total, etc.) in cents.'
             readable: true
             writable: false
-            openapiContext:
-                example:
-                    {
-                        expenseTotal: 490,
-                        discountTotal: 0,
-                        taxTotal: 1922,
-                        subtotal: 9902,
-                        grandTotal: 10392,
-                        canceledTotal: 0,
-                        remunerationTotal: 0,
-                    }
+            properties:
+                subtotal:
+                    type: integer
+                    description: 'Total of all items before discounts, taxes, and expenses.'
+                    openapiContext:
+                        example: 9902
+                discountTotal:
+                    type: integer
+                    description: 'Total discounts applied to the order.'
+                    openapiContext:
+                        example: 0
+                taxTotal:
+                    type: integer
+                    description: 'Total tax for the order.'
+                    openapiContext:
+                        example: 1922
+                expenseTotal:
+                    type: integer
+                    description: 'Total expenses (e.g. shipping) booked on the order.'
+                    openapiContext:
+                        example: 490
+                grandTotal:
+                    type: integer
+                    description: 'Final order total including all costs and discounts.'
+                    openapiContext:
+                        example: 10392
+                canceledTotal:
+                    type: integer
+                    description: 'Total amount canceled on the order.'
+                    openapiContext:
+                        example: 0
+                remunerationTotal:
+                    type: integer
+                    description: 'Total remuneration (e.g. credit) applied to the order.'
+                    openapiContext:
+                        example: 0
 
         items:
             type: array
@@ -115,47 +141,237 @@ resource:
                 example: []
 
         billingAddress:
-            type: map
+            type: object
+            objectName: Address
             description: 'Billing address snapshot at the time the order was placed.'
             readable: true
             writable: false
-            openapiContext:
-                example:
-                    {
-                        salutation: 'Mr',
-                        firstName: 'John',
-                        lastName: 'Doe',
-                        address1: 'Julie-Wolfthorn-Strasse',
-                        address2: '1',
-                        address3: null,
-                        zipCode: '10115',
-                        city: 'Berlin',
-                        country: 'Germany',
-                        iso2Code: 'DE',
-                        phone: '+49 30 2084983050',
-                    }
+            properties:
+                salutation:
+                    type: string
+                    nullable: true
+                    description: 'Salutation.'
+                    openapiContext:
+                        example: 'Mr'
+                firstName:
+                    type: string
+                    nullable: true
+                    description: 'First name.'
+                    openapiContext:
+                        example: 'John'
+                middleName:
+                    type: string
+                    nullable: true
+                    description: 'Middle name.'
+                    openapiContext:
+                        example: null
+                lastName:
+                    type: string
+                    nullable: true
+                    description: 'Last name.'
+                    openapiContext:
+                        example: 'Doe'
+                address1:
+                    type: string
+                    nullable: true
+                    description: 'Street name.'
+                    openapiContext:
+                        example: 'Julie-Wolfthorn-Strasse'
+                address2:
+                    type: string
+                    nullable: true
+                    description: 'House number.'
+                    openapiContext:
+                        example: '1'
+                address3:
+                    type: string
+                    nullable: true
+                    description: 'Additional address line.'
+                    openapiContext:
+                        example: null
+                zipCode:
+                    type: string
+                    nullable: true
+                    description: 'ZIP / postal code.'
+                    openapiContext:
+                        example: '10115'
+                city:
+                    type: string
+                    nullable: true
+                    description: 'City.'
+                    openapiContext:
+                        example: 'Berlin'
+                country:
+                    type: string
+                    nullable: true
+                    description: 'Country name.'
+                    openapiContext:
+                        example: 'Germany'
+                company:
+                    type: string
+                    nullable: true
+                    description: 'Company name.'
+                    openapiContext:
+                        example: 'Spryker Systems GmbH'
+                iso2Code:
+                    type: string
+                    nullable: true
+                    description: 'ISO 3166-1 alpha-2 country code.'
+                    openapiContext:
+                        example: 'DE'
+                phone:
+                    type: string
+                    nullable: true
+                    description: 'Phone number.'
+                    openapiContext:
+                        example: '+49 30 2084983050'
+                poBox:
+                    type: string
+                    nullable: true
+                    description: 'PO box.'
+                    openapiContext:
+                        example: null
+                cellPhone:
+                    type: string
+                    nullable: true
+                    description: 'Cell phone number.'
+                    openapiContext:
+                        example: null
+                comment:
+                    type: string
+                    nullable: true
+                    description: 'Address comment.'
+                    openapiContext:
+                        example: null
+                description:
+                    type: string
+                    nullable: true
+                    description: 'Address description.'
+                    openapiContext:
+                        example: null
+                email:
+                    type: string
+                    nullable: true
+                    description: 'Email address.'
+                    openapiContext:
+                        example: null
 
         shippingAddress:
-            type: map
+            type: object
+            objectName: Address
             description: 'Shipping address snapshot at the time the order was placed (nullable for multi-shipment orders).'
             nullable: true
             readable: true
             writable: false
-            openapiContext:
-                example:
-                    {
-                        salutation: 'Mr',
-                        firstName: 'John',
-                        lastName: 'Doe',
-                        address1: 'Julie-Wolfthorn-Strasse',
-                        address2: '1',
-                        address3: null,
-                        zipCode: '10115',
-                        city: 'Berlin',
-                        country: 'Germany',
-                        iso2Code: 'DE',
-                        phone: '+49 30 2084983050',
-                    }
+            properties:
+                salutation:
+                    type: string
+                    nullable: true
+                    description: 'Salutation.'
+                    openapiContext:
+                        example: 'Mr'
+                firstName:
+                    type: string
+                    nullable: true
+                    description: 'First name.'
+                    openapiContext:
+                        example: 'John'
+                middleName:
+                    type: string
+                    nullable: true
+                    description: 'Middle name.'
+                    openapiContext:
+                        example: null
+                lastName:
+                    type: string
+                    nullable: true
+                    description: 'Last name.'
+                    openapiContext:
+                        example: 'Doe'
+                address1:
+                    type: string
+                    nullable: true
+                    description: 'Street name.'
+                    openapiContext:
+                        example: 'Julie-Wolfthorn-Strasse'
+                address2:
+                    type: string
+                    nullable: true
+                    description: 'House number.'
+                    openapiContext:
+                        example: '1'
+                address3:
+                    type: string
+                    nullable: true
+                    description: 'Additional address line.'
+                    openapiContext:
+                        example: null
+                zipCode:
+                    type: string
+                    nullable: true
+                    description: 'ZIP / postal code.'
+                    openapiContext:
+                        example: '10115'
+                city:
+                    type: string
+                    nullable: true
+                    description: 'City.'
+                    openapiContext:
+                        example: 'Berlin'
+                country:
+                    type: string
+                    nullable: true
+                    description: 'Country name.'
+                    openapiContext:
+                        example: 'Germany'
+                company:
+                    type: string
+                    nullable: true
+                    description: 'Company name.'
+                    openapiContext:
+                        example: 'Spryker Systems GmbH'
+                iso2Code:
+                    type: string
+                    nullable: true
+                    description: 'ISO 3166-1 alpha-2 country code.'
+                    openapiContext:
+                        example: 'DE'
+                phone:
+                    type: string
+                    nullable: true
+                    description: 'Phone number.'
+                    openapiContext:
+                        example: '+49 30 2084983050'
+                poBox:
+                    type: string
+                    nullable: true
+                    description: 'PO box.'
+                    openapiContext:
+                        example: null
+                cellPhone:
+                    type: string
+                    nullable: true
+                    description: 'Cell phone number.'
+                    openapiContext:
+                        example: null
+                comment:
+                    type: string
+                    nullable: true
+                    description: 'Address comment.'
+                    openapiContext:
+                        example: null
+                description:
+                    type: string
+                    nullable: true
+                    description: 'Address description.'
+                    openapiContext:
+                        example: null
+                email:
+                    type: string
+                    nullable: true
+                    description: 'Email address.'
+                    openapiContext:
+                        example: null
 
         payments:
             type: array
@@ -191,9 +407,29 @@ resource:
                 example: {}
 
         pagination:
-            type: map
+            type: object
+            objectName: Pagination
             description: 'Pagination metadata for the collection.'
             readable: true
             writable: false
-            openapiContext:
-                example: { currentPage: 1, maxPage: 10, currentItemsPerPage: 10, numFound: 100 }
+            properties:
+                currentPage:
+                    type: integer
+                    description: 'Current page number.'
+                    openapiContext:
+                        example: 1
+                maxPage:
+                    type: integer
+                    description: 'Total number of pages.'
+                    openapiContext:
+                        example: 10
+                currentItemsPerPage:
+                    type: integer
+                    description: 'Number of items per page.'
+                    openapiContext:
+                        example: 10
+                numFound:
+                    type: integer
+                    description: 'Total number of items found.'
+                    openapiContext:
+                        example: 100

@@ -312,13 +312,23 @@ resource:
                 example: 1
 
         metadata:
-            type: array
+            type: object
+            objectName: OrderItemMetadata
             description: 'Concrete product metadata (superAttributes, image).'
             nullable: true
             readable: true
             writable: false
-            openapiContext:
-                example: { superAttributes: [], image: null }
+            properties:
+                superAttributes:
+                    type: map
+                    description: 'Concrete product super attributes (key/value).'
+                    openapiContext:
+                        example: []
+                image:
+                    type: string
+                    description: 'Concrete product image URL.'
+                    openapiContext:
+                        example: null
 
         calculatedDiscounts:
             type: array
