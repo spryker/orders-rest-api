@@ -220,6 +220,7 @@
         <property name="expenses" type="Expense[]" singular="expense" description="A collection of expenses."/>
         <property name="payments" type="Payment[]" singular="payment" description="A collection of payments associated with an order."/>
         <property name="calculatedDiscounts" type="CalculatedDiscount[]" singular="calculatedDiscount" description="A list of discounts calculated for an item or order."/>
+        <property name="merchantReferences" type="string[]" singular="merchantReference" description="A collection of references to the merchants fulfilling an order."/>
         <property name="currencyIsoCode" type="string" description="The ISO code for a currency."/>
     </transfer>
 
