@@ -13,12 +13,16 @@ resource:
           uriVariables:
               orderReference:
                   fromClass: OrdersStorefrontResource
+              uuid:
+                  fromClass: OrderItemsStorefrontResource
           openapiContext:
               responses:
                   200:
                       description: 'Order item returned.'
                   401:
-                      description: 'Missing access token.'
+                      description: 'Invalid access token.'
+                  403:
+                      description: 'Access denied: missing access token or insufficient scope.'
                   404:
                       description: 'Order or order item not found.'
 
