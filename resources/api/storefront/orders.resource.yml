@@ -21,6 +21,15 @@ resource:
                       description: 'Order not found.'
         - type: GetCollection
           openapiContext:
+              parameters:
+                  - name: 'sort'
+                    in: query
+                    required: false
+                    description: 'Order list field to sort by, prefixed with `-` for descending order.'
+                    schema:
+                        type: string
+                        enum: [createdAt, -createdAt, updatedAt, -updatedAt]
+                    example: '-createdAt'
               responses:
                   200:
                       description: 'Order collection returned.'
