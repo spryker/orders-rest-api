@@ -7,6 +7,9 @@ resource:
 
     operations:
         - type: Get
+          extraProperties:
+              notFoundCode: '801'
+              notFoundMessage: "Can't find order by the given order reference"
           uriTemplate: /orders/{orderReference}/order-items/{uuid}
           normalizationContext:
               skip_null_values: false
