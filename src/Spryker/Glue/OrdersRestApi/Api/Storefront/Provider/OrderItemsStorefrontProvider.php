@@ -39,8 +39,8 @@ class OrderItemsStorefrontProvider extends AbstractStorefrontProvider
         }
 
         $customerReference = $this->getCustomerReference();
-        $orderReference = (string)($this->getUriVariables()[static::KEY_ORDER_REFERENCE] ?? '');
-        $uuid = (string)($this->getUriVariables()[static::KEY_UUID] ?? '');
+        $orderReference = (string)$this->findUriVariable(static::KEY_ORDER_REFERENCE);
+        $uuid = (string)$this->findUriVariable(static::KEY_UUID);
 
         $orderItemFilterTransfer = (new OrderItemFilterTransfer())
             ->addSalesOrderItemUuid($uuid)
