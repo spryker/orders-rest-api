@@ -54,7 +54,7 @@ class OrderStorefrontMapper implements OrderStorefrontMapperInterface
         $orderItemsStorefrontResource->sumPrice = $itemTransfer->getSumPrice();
         $orderItemsStorefrontResource->unitGrossPrice = $itemTransfer->getUnitGrossPrice();
         $orderItemsStorefrontResource->sumGrossPrice = $itemTransfer->getSumGrossPrice();
-        $orderItemsStorefrontResource->taxRate = $itemTransfer->getTaxRate();
+        $orderItemsStorefrontResource->taxRate = $this->mapDecimalRateToFloat($itemTransfer->getTaxRate());
         $orderItemsStorefrontResource->unitNetPrice = $itemTransfer->getUnitNetPrice();
         $orderItemsStorefrontResource->sumNetPrice = $itemTransfer->getSumNetPrice();
         $orderItemsStorefrontResource->unitPrice = $itemTransfer->getUnitPrice();
@@ -74,7 +74,7 @@ class OrderStorefrontMapper implements OrderStorefrontMapperInterface
         $orderItemsStorefrontResource->sumDiscountAmountFullAggregation = $itemTransfer->getSumDiscountAmountFullAggregation();
         $orderItemsStorefrontResource->unitPriceToPayAggregation = $itemTransfer->getUnitPriceToPayAggregation();
         $orderItemsStorefrontResource->sumPriceToPayAggregation = $itemTransfer->getSumPriceToPayAggregation();
-        $orderItemsStorefrontResource->taxRateAverageAggregation = $itemTransfer->getTaxRateAverageAggregation();
+        $orderItemsStorefrontResource->taxRateAverageAggregation = $this->mapDecimalRateToFloat($itemTransfer->getTaxRateAverageAggregation());
         $orderItemsStorefrontResource->taxAmountAfterCancellation = $itemTransfer->getTaxAmountAfterCancellation();
         $orderItemsStorefrontResource->orderReference = $itemTransfer->getOrderReference();
         $orderItemsStorefrontResource->isReturnable = $itemTransfer->getIsReturnable();
@@ -85,6 +85,15 @@ class OrderStorefrontMapper implements OrderStorefrontMapperInterface
             : [];
 
         return $orderItemsStorefrontResource;
+    }
+
+    /**
+     * Both tax rates are DECIMAL columns, which Propel answers as strings - so the item transfer
+     * carries a string where it declares a float, and the resource's typed property rejects it.
+     */
+    protected function mapDecimalRateToFloat(mixed $rate): ?float
+    {
+        return $rate === null ? null : (float)$rate;
     }
 
     public function mapOrderTransferToCustomersOrdersResource(

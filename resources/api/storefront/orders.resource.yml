@@ -88,6 +88,7 @@ resource:
 
         merchantReferences:
             type: array
+            itemOnly: true
             description: 'Collection of merchant references for the order (marketplace).'
             readable: true
             writable: false
@@ -140,6 +141,7 @@ resource:
 
         items:
             type: array
+            itemOnly: true
             description: 'Order line items.'
             readable: true
             writable: false
@@ -148,6 +150,7 @@ resource:
 
         expenses:
             type: array
+            itemOnly: true
             description: 'Expenses (e.g. shipping costs) booked on the order.'
             readable: true
             writable: false
@@ -157,6 +160,7 @@ resource:
         billingAddress:
             type: object
             objectName: Address
+            itemOnly: true
             description: 'Billing address snapshot at the time the order was placed.'
             readable: true
             writable: false
@@ -273,6 +277,7 @@ resource:
         shippingAddress:
             type: object
             objectName: Address
+            itemOnly: true
             description: 'Shipping address snapshot at the time the order was placed (nullable for multi-shipment orders).'
             nullable: true
             readable: true
@@ -389,6 +394,7 @@ resource:
 
         payments:
             type: array
+            itemOnly: true
             description: 'Payments associated with the order.'
             readable: true
             writable: false
@@ -397,6 +403,7 @@ resource:
 
         shipments:
             type: array
+            itemOnly: true
             description: 'Shipments associated with the order.'
             readable: true
             writable: false
@@ -405,6 +412,7 @@ resource:
 
         calculatedDiscounts:
             type: array
+            itemOnly: true
             description: 'Calculated discounts applied to the order.'
             readable: true
             writable: false
@@ -423,6 +431,7 @@ resource:
         pagination:
             type: object
             objectName: Pagination
+            collectionOnly: true
             description: 'Pagination metadata for the collection.'
             readable: true
             writable: false
