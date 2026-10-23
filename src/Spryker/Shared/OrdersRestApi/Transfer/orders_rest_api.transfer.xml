@@ -177,6 +177,7 @@
         <property name="taxRateAverageAggregation" type="float"/>
         <property name="taxAmountAfterCancellation" type="int"/>
         <property name="isReturnable" type="bool"/>
+        <property name="sku" type="string"/>
     </transfer>
 
     <transfer name="Shipment">
