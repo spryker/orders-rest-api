@@ -35,9 +35,6 @@ class CustomersOrdersStorefrontProvider extends AbstractStorefrontProvider
     {
         $request = $this->getRequest();
 
-        // CustomerRequestSubscriber overwrites request.attributes.customerReference with the
-        // authenticated value, which also propagates to $uriVariables. Use _route_params
-        // to get the original URI value for ownership comparison.
         $routeParams = $request->attributes->get('_route_params', []);
         $customerReference = $routeParams['customerReference'] ?? null;
 
