@@ -44,7 +44,7 @@ resource:
     includes:
         - relationshipName: merchants
           targetResource: Merchants
-          resolverClass: Spryker\Glue\MerchantsRestApi\Relationship\OrderMerchantsRelationshipResolver
+          resolverClass: Spryker\Glue\MerchantsRestApi\Api\Storefront\Relationship\OrderMerchantsRelationshipResolver
         - relationshipName: order-shipments
           targetResource: OrderShipments
           resolverClass: Spryker\Glue\ShipmentsRestApi\Api\Storefront\Relationship\OrderShipmentsRelationshipResolver

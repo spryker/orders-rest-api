@@ -15,6 +15,7 @@ use Generated\Api\Storefront\OrdersStorefrontResource;
 use Generated\Shared\Transfer\OrderListRequestTransfer;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\RestOrderDetailsAttributesTransfer;
+use Generated\Shared\Transfer\RestOrderItemsAttributesTransfer;
 use Spryker\ApiPlatform\State\Provider\AbstractStorefrontProvider;
 use Spryker\Client\Sales\SalesClientInterface;
 use Spryker\Glue\OrdersRestApi\Api\Storefront\Exception\OrdersExceptionFactoryInterface;
@@ -121,9 +122,28 @@ class OrdersStorefrontProvider extends AbstractStorefrontProvider
         $resource->currencyIsoCode = $orderTransfer->getCurrencyIsoCode();
         $resource->priceMode = $orderTransfer->getPriceMode();
         $resource->totals = OrdersTotalsStorefrontObject::fromArray($this->orderStorefrontMapper->mapTotals($orderTransfer));
+        $resource->items = $this->mapOrderItems($orderTransfer);
         $resource->context = $orderTransfer->toArray(true, true);
 
         return $resource;
+    }
+
+    /**
+     * `items` is not rendered on the collection; it feeds the `order-items` include.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    protected function mapOrderItems(OrderTransfer $orderTransfer): array
+    {
+        $items = [];
+
+        foreach ($orderTransfer->getItems() as $itemTransfer) {
+            $items[] = $this->orderStorefrontMapper
+                ->mapItemTransferToRestOrderItemsAttributesTransfer($itemTransfer, new RestOrderItemsAttributesTransfer())
+                ->toArray(true, true);
+        }
+
+        return $items;
     }
 
     protected function prepareOrderDetailResource(OrderTransfer $orderTransfer): OrdersStorefrontResource
