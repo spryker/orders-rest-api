@@ -10,7 +10,8 @@ declare(strict_types=1);
 namespace Spryker\Glue\OrdersRestApi\Api\Storefront\Provider;
 
 use Generated\Api\Storefront\OrderItemsStorefrontResource;
-use Generated\Shared\Transfer\OrderItemFilterTransfer;
+use Generated\Shared\Transfer\ItemTransfer;
+use Generated\Shared\Transfer\OrderTransfer;
 use Spryker\ApiPlatform\State\Provider\AbstractStorefrontProvider;
 use Spryker\Client\Sales\SalesClientInterface;
 use Spryker\Glue\OrdersRestApi\Api\Storefront\Exception\OrdersExceptionFactoryInterface;
@@ -42,20 +43,15 @@ class OrderItemsStorefrontProvider extends AbstractStorefrontProvider
         $orderReference = (string)$this->findUriVariable(static::KEY_ORDER_REFERENCE);
         $uuid = (string)$this->findUriVariable(static::KEY_UUID);
 
-        $orderItemFilterTransfer = (new OrderItemFilterTransfer())
-            ->addSalesOrderItemUuid($uuid)
-            ->addCustomerReference($customerReference);
+        $orderTransfer = $this->salesClient->getCustomerOrderByOrderReference(
+            (new OrderTransfer())
+                ->setOrderReference($orderReference)
+                ->setCustomerReference($customerReference),
+        );
 
-        $items = $this->salesClient->getOrderItems($orderItemFilterTransfer)->getItems();
+        $itemTransfer = $this->findOrderItemByUuid($orderTransfer, $uuid);
 
-        if ($items->count() === 0) {
-            throw $this->exceptionFactory->createOrderItemNotFoundByUuidException();
-        }
-
-        /** @var \Generated\Shared\Transfer\ItemTransfer $itemTransfer */
-        $itemTransfer = $items->offsetGet(0);
-
-        if ($itemTransfer->getOrderReference() !== $orderReference) {
+        if ($itemTransfer === null) {
             throw $this->exceptionFactory->createOrderItemNotFoundByUuidException();
         }
 
@@ -63,5 +59,16 @@ class OrderItemsStorefrontProvider extends AbstractStorefrontProvider
             $itemTransfer,
             new OrderItemsStorefrontResource(),
         );
+    }
+
+    protected function findOrderItemByUuid(OrderTransfer $orderTransfer, string $uuid): ?ItemTransfer
+    {
+        foreach ($orderTransfer->getItems() as $itemTransfer) {
+            if ($itemTransfer->getUuid() === $uuid) {
+                return $itemTransfer->setOrderReference($orderTransfer->getOrderReference());
+            }
+        }
+
+        return null;
     }
 }
